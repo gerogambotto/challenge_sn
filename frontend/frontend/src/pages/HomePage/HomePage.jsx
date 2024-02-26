@@ -6,17 +6,14 @@ import { ModalProfile } from "../../components/ModalProfile/ModalProfile";
 export function HomePage() {
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [isAdmin, setIsAdmin] = useState(false); // Estado para verificar si el usuario es admin
-  const [token, setToken] = useState(""); // Estado para almacenar el token
-  const [userData, setUserData] = useState(null); // Definir el estado userData
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [token, setToken] = useState("");
+  const [userData, setUserData] = useState(null);
   const [selectedUserData, setSelectedUserData] = useState(null);
 
-  //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false); // Estado para controlar la apertura del diálogo de edición
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
   const handleCloseEditDialog = () => {
-    // Cierra el diálogo de edición
     setIsEditDialogOpen(false);
   };
 
@@ -29,19 +26,17 @@ export function HomePage() {
     const token = localStorage.getItem("token");
 
     if (token) {
-      // Enviar una solicitud al servidor para obtener los datos del usuario
       axios
         .get("http://localhost:3000/logged-user", {
           headers: {
-            Authorization: `Bearer ${token}`, // Agrega el token a la cabecera de autorización
+            Authorization: `Bearer ${token}`,
           },
         })
         .then((response) => {
-          // Manejar la respuesta del servidor
-          setUserData(response.data); // Establecer los datos del usuario en el estado
-          // Verificar si el usuario es administrador
-          const isAdminUser = response.data.role_id === 2; // Si role_id es 2, el usuario es administrador
-          setIsAdmin(isAdminUser); // Establecer el estado de isAdmin en función del role_id
+          setUserData(response.data);
+
+          const isAdminUser = response.data.role_id === 2;
+          setIsAdmin(isAdminUser);
         })
         .catch((error) => {
           console.error("Error al obtener los datos del usuario:", error);
@@ -86,19 +81,16 @@ export function HomePage() {
     refresh();
   }, [refresh]);
 
-  // Función para obtener los usuarios de la página actual
   const getCurrentPageUsers = () => {
     const startIndex = (currentPage - 1) * 10;
     const endIndex = startIndex + 10;
     return users.slice(startIndex, endIndex);
   };
 
-  // Función para cambiar a la página anterior
   const goToPreviousPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
-  // Función para cambiar a la página siguiente
   const goToNextPage = () => {
     setCurrentPage((prevPage) =>
       Math.min(prevPage + 1, Math.ceil(users.length / 10))
@@ -106,12 +98,11 @@ export function HomePage() {
   };
 
   const handleEditUser = (userId) => {
-    // Buscar el usuario correspondiente al ID seleccionado
     const selectedUser = users.find((user) => user.id === userId);
-    // Abre el diálogo de edición al hacer clic en el botón "Edit"
+
     setIsEditDialogOpen(true);
 
-    setSelectedUserData(selectedUser); // Guardar la información del usuario seleccionado
+    setSelectedUserData(selectedUser);
   };
 
   return (
@@ -154,7 +145,7 @@ export function HomePage() {
                         <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                           Status
                         </th>
-                        {/* Columna para Edit */}
+                        {/*  */}
                         <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                           Edit
                         </th>
@@ -210,7 +201,7 @@ export function HomePage() {
                               {user.status}
                             </span>
                           </td>
-                          {/* Celda para el botón Edit */}
+                          {/* */}
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <button
                               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -269,7 +260,7 @@ export function HomePage() {
                 selectedUserData={selectedUserData}
                 refresh={refresh}
               />
-              {/* Contenido del diálogo de edición */}
+              {/*  */}
               <div className="mt-4 flex justify-end">
                 <button
                   onClick={handleCloseEditDialog}

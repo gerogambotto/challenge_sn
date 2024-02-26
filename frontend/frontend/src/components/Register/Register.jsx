@@ -29,7 +29,6 @@ export function Register() {
 
     const formDataToSend = new FormData(); // Crear un objeto FormData
 
-    // Agregar cada campo del formulario al objeto FormData
     formDataToSend.append("firstName", formData.firstName);
     formDataToSend.append("lastName", formData.lastName);
     formDataToSend.append("dateOfBirth", formData.dateOfBirth);
@@ -42,7 +41,7 @@ export function Register() {
     // POST al backend
     fetch("http://localhost:3000/register", {
       method: "POST",
-      body: formDataToSend, // Pasar el objeto FormData como cuerpo de la solicitud
+      body: formDataToSend,
     })
       .then((response) => {
         if (response.ok) {
@@ -51,14 +50,12 @@ export function Register() {
         throw new Error("Network response was not ok.");
       })
       .then((data) => {
-        // Almacena el token en localStorage
         localStorage.setItem("token", data.token);
-        // Redirige al usuario a la página de inicio después del registro exitoso
+
         navigate("/");
       })
       .catch((error) => {
         console.error("Error al registrar:", error);
-        // Aquí puedes mostrar un mensaje de error al usuario o realizar otras acciones necesarias
       });
   };
 

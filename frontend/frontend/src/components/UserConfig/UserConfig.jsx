@@ -7,7 +7,6 @@ export function UserCongig({ setUserData, refresh }) {
   const [openProfile, setOpenProfile] = useState(false);
   const [openprofile, setOpenprofile] = useState(false);
   const [selectedUserData, setSelectedUserData] = useState(null);
-  // cargar los datos en selecteduserdata
 
   const handleOpenProfile = () => {
     setOpenProfile(!openProfile);

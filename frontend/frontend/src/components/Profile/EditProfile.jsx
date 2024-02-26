@@ -19,22 +19,18 @@ export function EditProfile({ selectedUserData, refresh }) {
     const { name, value, files } = e.target;
 
     setFormData((prevFormData) => {
-      // Verificar si el campo es de tipo 'file'
       if (name === "profilePicture") {
-        // Verificar si hay archivos seleccionados
         const newProfilePicture = files.length > 0 ? files[0] : value;
         return {
           ...prevFormData,
           [name]: newProfilePicture,
         };
       } else if (name === "status") {
-        // Si el campo es 'status', actualizar el estado de forma diferente
         return {
           ...prevFormData,
-          status: value, // Actualizar el estado de 'status' con el nuevo valor
+          status: value,
         };
       } else {
-        // Si no es un campo de tipo 'file' ni 'status', actualizar el estado normalmente
         return {
           ...prevFormData,
           [name]: value,
@@ -55,12 +51,10 @@ export function EditProfile({ selectedUserData, refresh }) {
 
     const token = localStorage.getItem("token");
 
-    const formDataToSend = new FormData(); // Crear un objeto FormData
-
-    // Agregar cada campo del formulario al objeto FormData
+    const formDataToSend = new FormData();
 
     formDataToSend.append("id", selectedUserData.id);
-    // Verificación y asignación para el campo firstName
+
     if (formData.firstName) {
       formDataToSend.append("firstName", formData.firstName);
     } else {
@@ -86,7 +80,6 @@ export function EditProfile({ selectedUserData, refresh }) {
     if (formData.profilePicture instanceof File) {
       formDataToSend.append("profilePicture", formData.profilePicture);
     } else {
-      // Si no se selecciona una nueva imagen, usar la imagen actual del usuario
       formDataToSend.append("profilePicture", selectedUserData.profilePicture);
     }
 
@@ -96,7 +89,7 @@ export function EditProfile({ selectedUserData, refresh }) {
     } else {
       formDataToSend.append("status", selectedUserData.status);
     }
-    // PUT al backend
+
     axios
 
       .put(
@@ -111,11 +104,9 @@ export function EditProfile({ selectedUserData, refresh }) {
       )
       .then((response) => {
         refresh();
-        // Aquí puedes manejar la respuesta del servidor, mostrar un mensaje de éxito, etc.
       })
       .catch((error) => {
         console.error("Error updating profile:", error);
-        // Aquí puedes manejar el error, mostrar un mensaje al usuario, etc.
       });
   };
 
@@ -250,7 +241,7 @@ export function EditProfile({ selectedUserData, refresh }) {
               id="status"
               name="status"
               className="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
-              value={formData.status} // Utiliza formData.status en lugar de selectedUserData.status
+              value={formData.status}
               onChange={handleInputChange}
             >
               <option value="activo">Activo</option>

@@ -35,18 +35,16 @@ export function Login() {
           throw new Error("La respuesta de la red no fue correcta.");
         })
         .then((data) => {
-          // Almacena el token en localStorage
           localStorage.setItem("token", data.token);
-          // Redirige al usuario a la página de inicio después del inicio de sesión exitoso
+
           navigate("/HomePage");
         })
         .catch((error) => {
           console.error("Credenciales incorrectas:", error);
-          // Aquí puedes mostrar un mensaje de error al usuario o realizar otras acciones necesarias
         });
     };
 
-    login(formData); // Llama a la función login con los datos del formulario
+    login(formData);
   };
 
   return (

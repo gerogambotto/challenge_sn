@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
 
-// Función para verificar el token JWT
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
 
@@ -8,7 +7,6 @@ const verifyToken = (req, res, next) => {
     return res.status(403).send({ message: "Token no proporcionado" });
   }
 
-  // Separar el token de la palabra "Bearer"
   const token = authHeader.split(" ")[1];
 
   if (!token) {

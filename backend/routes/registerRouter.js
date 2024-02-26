@@ -2,7 +2,7 @@ const express = require("express");
 const registerRouter = express.Router();
 const User = require("../models/user");
 const multer = require("multer");
-const upload = multer({ dest: "uploads/" }); // Directorio donde se guardarán temporalmente los archivos
+const upload = multer({ dest: "uploads/" });
 const bcrypt = require("bcrypt");
 const ftp = require("basic-ftp");
 const { ftpConfigs } = require("../ftpConfig/ftpConfig");
@@ -34,7 +34,7 @@ registerRouter.post(
         password,
         isAdmin,
       } = req.body;
-      const profilePicture = req.file; // Assuming you're using multer or similar middleware for handling file uploads
+      const profilePicture = req.file;
 
       if (
         !firstName ||
@@ -50,10 +50,9 @@ registerRouter.post(
         });
       }
 
-      // Configure FTP connection
       client.ftp.verbose = true;
       await client.access(ftpConfigs);
-      // Guardar la imagen en el servidor FTP
+
       const fileExtension = profilePicture.originalname.split(".").pop(); // Obtener la extensión del archivo original
       const remoteFileName = `profile_${Date.now()}.${fileExtension}`; // Nombre del archivo en el servidor FTP
       await client.uploadFrom(
@@ -64,14 +63,13 @@ registerRouter.post(
       let role_id;
       let role;
       if (isAdmin) {
-        role_id = 2; // El ID del rol de administrador
+        role_id = 2;
         role = "admin";
       } else {
-        role_id = 1; // El ID del rol de usuario normal
+        role_id = 1;
         role = "user";
       }
 
-      // Get the URL of the profile image on the FTP server
       const profilePictureUrl = `http://${hostname}:${port}/profilepicture/${remoteFileName}`;
 
       // Save the image URL in the database
@@ -83,8 +81,8 @@ registerRouter.post(
         dni,
         email,
         password: hashedPassword,
-        profilePicture: profilePictureUrl, // Save the URL in the database
-        role_id, // Assign the role ID to the created user
+        profilePicture: profilePictureUrl,
+        role_id,
         role,
         status: "activo",
       });
@@ -95,7 +93,7 @@ registerRouter.post(
       console.error("Error registering user:", error);
       res.status(500).json({ message: "Server error" });
     } finally {
-      client.close(); // Make sure to close the FTP connection
+      client.close();
     }
   }
 );
@@ -132,10 +130,10 @@ registerRouter.post("/admin/register", async (req, res) => {
     let role_id;
     let role;
     if (isAdmin) {
-      role_id = 2; // El ID del rol de administrador
+      role_id = 2;
       role = "admin";
     } else {
-      role_id = 1; // El ID del rol de usuario normal
+      role_id = 1;
       role = "user";
     }
 
@@ -148,7 +146,7 @@ registerRouter.post("/admin/register", async (req, res) => {
       email,
       password: hashedPassword,
       profilePicture,
-      role_id, // Asignar el ID del rol al usuario creado
+      role_id,
       role,
       status: "activo",
     });

@@ -1,11 +1,10 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../configs/db");
 // User Model
-// Define el modelo User
+
 const User = sequelize.define(
   "User",
   {
-    // Definición de los campos de User
     firstName: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -39,23 +38,21 @@ const User = sequelize.define(
       type: DataTypes.STRING,
     },
     role: {
-      // Nuevo campo role
-      type: DataTypes.STRING, // Dependiendo de cómo definas los roles, puede ser STRING, INTEGER, etc.
-      allowNull: false, // Ajusta según tus necesidades
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     role_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "Role", // El nombre del modelo debe coincidir con la definición del modelo Role
+        model: "Role",
         key: "id",
       },
     },
     status: {
-      // Nueva columna status
-      type: DataTypes.STRING, // Define el tipo de datos como STRING
-      allowNull: false, // La columna no puede ser nula
-      defaultValue: "activo", // Establece el valor predeterminado como "activo"
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "activo",
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -67,7 +64,7 @@ const User = sequelize.define(
     },
   },
   {
-    tableName: "users", // Define el nombre de la tabla como "users"
+    tableName: "users",
   }
 );
 
